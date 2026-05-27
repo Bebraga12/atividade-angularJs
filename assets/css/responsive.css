@@ -1,0 +1,115 @@
+/* =============================================
+   Brew & Co. — Responsividade
+   Breakpoints: ≤480px · ≤768px · ≥769px
+   ============================================= */
+
+/* ── Desktop: 2 colunas ──────────────────────── */
+@media (min-width: 769px) {
+  .content-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .menu-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* ── Tablet: 1 coluna ────────────────────────── */
+@media (max-width: 768px) {
+  .content-grid { grid-template-columns: 1fr; }
+  .card-welcome, .card-full { grid-column: 1; }
+
+  .header-inner { padding: 22px 24px; }
+  .header-right { align-items: flex-start; }
+
+  .menu-list { grid-template-columns: 1fr; }
+
+  .tab-button { padding: 10px 14px; font-size: 0.82rem; }
+
+  /* Rodapé: 2 colunas em tablet */
+  .footer-top {
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    padding: 40px 0 32px;
+  }
+  .footer-col-brand {
+    grid-column: 1 / -1;
+  }
+  .footer-desc { max-width: 100%; }
+}
+
+/* ── Mobile: empilhado ───────────────────────── */
+@media (max-width: 480px) {
+  .page-shell { padding: 20px 16px 36px; }
+
+  /* Header */
+  .header-inner {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 18px 20px;
+    gap: 14px;
+  }
+  .header-right {
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .brand-text h1 { font-size: 1.65rem; }
+
+  /* Cards */
+  .card { padding: 18px; border-radius: 14px; }
+  .card-heading { margin-bottom: 16px; }
+  .card-heading h2 { font-size: 1.15rem; }
+
+  /* Botões full-width */
+  .demo-actions { flex-direction: column; }
+  .demo-actions .btn {
+    width: 100%;
+    justify-content: center;
+    padding: 13px 20px;
+  }
+
+  /* Toolbar do cardápio */
+  .menu-toolbar { flex-direction: column; align-items: stretch; }
+  .search-input { width: 100%; flex: none; min-width: unset; }
+  .dropdown { min-width: unset; width: 100%; }
+  .dropdown-menu {
+    position: relative;
+    top: auto;
+    margin-top: 4px;
+  }
+
+  /* Cardápio: grade separada por borda lateral */
+  .menu-list { grid-template-columns: 1fr; }
+
+  /* Progresso */
+  .progress-controls { flex-wrap: nowrap; }
+  .btn-step { flex: 1; height: 42px; }
+  .range-hint { display: none; }
+  .progress-range { width: 100%; }
+
+  /* Tabs */
+  .tabs-panel { padding: 14px 16px; }
+
+  /* Paginação */
+  .pagination-button { min-width: 42px; height: 42px; }
+
+  /* Toast */
+  .toast-shell { right: 12px; left: 12px; bottom: 12px; width: auto; }
+
+  /* Rodapé */
+  .footer-top {
+    grid-template-columns: 1fr;
+    gap: 28px;
+    padding: 32px 0 24px;
+  }
+  .footer-col-brand { grid-column: 1; }
+  .footer-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+    padding: 14px 0;
+  }
+  .footer-inner { padding: 0 18px; }
+}

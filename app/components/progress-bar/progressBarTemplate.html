@@ -1,0 +1,38 @@
+<div class="progress-widget">
+
+  <div class="progress-header">
+    <span class="progress-label-text">Progresso do preparo</span>
+    <div class="progress-percent-row">
+      <span class="progress-percent">{{ value }}%</span>
+      <span class="progress-status-text" ng-class="getFillClass()">
+        <span ng-if="value <= 33">Preparando</span>
+        <span ng-if="value > 33 && value <= 66">Quase pronto</span>
+        <span ng-if="value > 66">Pronto em breve</span>
+      </span>
+    </div>
+  </div>
+
+  <div class="progress-track">
+    <div
+      class="progress-fill"
+      ng-class="getFillClass()"
+      ng-style="{ width: value + '%' }">
+    </div>
+  </div>
+
+  <div class="progress-controls">
+    <button type="button" class="btn-step" ng-click="changeValue(-10)">&minus;10</button>
+    <button type="button" class="btn-step" ng-click="changeValue(10)">+10</button>
+    <span class="range-hint">ou arraste o controle abaixo</span>
+  </div>
+
+  <input
+    id="prepProgress"
+    class="progress-range"
+    type="range"
+    min="0"
+    max="100"
+    ng-model="value"
+    ng-change="onValueChange()">
+
+</div>

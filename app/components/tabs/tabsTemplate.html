@@ -1,0 +1,27 @@
+<div class="tabs">
+
+  <!-- Tab navigation — ng-click switches active tab -->
+  <div class="tabs-nav" role="tablist">
+    <button
+      type="button"
+      class="tab-button"
+      role="tab"
+      ng-repeat="tab in tabs track by $index"
+      ng-click="setActive($index)"
+      ng-class="{ 'is-active': isActive($index) }"
+      ng-attr-aria-selected="{{ isActive($index) }}">
+      <!-- capitalize custom filter applied to each label -->
+      {{ tab.label | capitalize }}
+    </button>
+  </div>
+
+  <!-- Active panel — ng-bind-html for rich HTML content -->
+  <div
+    class="tabs-panel"
+    role="tabpanel"
+    ng-repeat="tab in tabs track by $index"
+    ng-if="isActive($index)">
+    <div ng-bind-html="tab.safeContent"></div>
+  </div>
+
+</div>

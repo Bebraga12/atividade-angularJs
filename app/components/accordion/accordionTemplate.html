@@ -1,0 +1,21 @@
+<div class="accordion">
+  <article
+    class="accordion-item"
+    ng-repeat="item in items track by $index"
+    ng-class="{ 'is-active-item': isOpen($index) }">
+
+    <!-- ng-click triggers the toggle -->
+    <button class="accordion-trigger" ng-click="toggleItem($index)" type="button">
+      <span class="accordion-trigger-text">{{ item.title }}</span>
+      <!-- + icon rotates 45° → × when open -->
+      <span class="accordion-icon" ng-class="{ 'is-open': isOpen($index) }">+</span>
+    </button>
+
+    <div class="accordion-panel" ng-class="{ 'is-open': isOpen($index) }">
+      <div class="accordion-content">
+        <p>{{ item.content }}</p>
+      </div>
+    </div>
+
+  </article>
+</div>

@@ -1,0 +1,14 @@
+<div class="pagination">
+  <button type="button" class="pagination-button" ng-click="changePage(currentPage - 1)" ng-disabled="currentPage === 1">« Prev</button>
+
+  <button
+    type="button"
+    class="pagination-button page-number"
+    ng-repeat="page in pages track by page"
+    ng-click="changePage(page)"
+    ng-class="{ 'is-active': page === currentPage }">
+    {{ page }}
+  </button>
+
+  <button type="button" class="pagination-button" ng-click="changePage(currentPage + 1)" ng-disabled="currentPage === totalPages">Next »</button>
+</div>

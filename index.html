@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="pt-BR" ng-app="atividadeApp">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Brew &amp; Co. Coffee House</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/responsive.css">
+</head>
+<body>
+
+  <div ng-controller="mainController" ng-cloak>
+
+    <!-- ══ Cabeçalho ═══════════════════════════════════════════════════════ -->
+    <header class="site-header">
+      <div class="header-beans" aria-hidden="true"></div>
+      <div class="header-inner">
+
+        <div class="brand">
+          <div class="brand-mark">B&amp;</div>
+          <div class="brand-text">
+            <h1>Brew &amp; Co.</h1>
+            <p class="tagline">Feito com amor, servido com carinho.</p>
+          </div>
+        </div>
+
+        <div class="header-right">
+          <p class="header-est">Desde 2019 &bull; Cafeteria Especial</p>
+          <button class="btn btn-ghost-light" ng-click="showToast('info', 'Sua mesa está pronta!')">
+            Reservar Mesa
+          </button>
+        </div>
+
+      </div>
+    </header>
+
+    <!-- ══ Conteúdo principal ══════════════════════════════════════════════ -->
+    <div class="page-shell">
+      <main class="content-grid">
+
+        <!-- Boas-vindas / Toast demo -->
+        <section class="card card-welcome">
+          <div class="card-heading">
+            <h2>Bem-vindo(a) à Brew &amp; Co.</h2>
+            <p>Explore nosso cardápio interativo, acompanhe o preparo do pedido, tire dúvidas e gerencie seu perfil.</p>
+          </div>
+          <div class="demo-actions">
+            <button class="btn btn-success" ng-click="showToast('success', 'Pedido confirmado com sucesso!')">
+              Confirmar Pedido
+            </button>
+            <button class="btn btn-danger" ng-click="showToast('error', 'Pagamento recusado. Tente novamente.')">
+              Cancelar Pedido
+            </button>
+            <button class="btn btn-info" ng-click="showToast('info', 'Sua mesa está pronta!')">
+              Ver Status
+            </button>
+          </div>
+        </section>
+
+        <!-- Barra de progresso -->
+        <section class="card">
+          <div class="card-heading">
+            <h2>Preparo do Pedido</h2>
+            <p>Acompanhe em tempo real o andamento do preparo da sua bebida e lanche.</p>
+          </div>
+          <progress-bar value="progress"></progress-bar>
+        </section>
+
+        <!-- Perguntas Frequentes -->
+        <section class="card">
+          <div class="card-heading">
+            <h2>Perguntas Frequentes</h2>
+            <p>Tudo que você precisa saber sobre a nossa cafeteria.</p>
+          </div>
+          <accordion items="faqItems"></accordion>
+        </section>
+
+        <!-- Perfil do Cliente -->
+        <section class="card">
+          <div class="card-heading">
+            <h2>Perfil do Cliente</h2>
+            <p>Dados da conta, pedidos anteriores, preferências e recompensas.</p>
+          </div>
+          <tabs tabs="profileTabs"></tabs>
+        </section>
+
+        <!-- Cardápio (largura total) -->
+        <section class="card card-full">
+          <div class="card-heading">
+            <h2>Nosso Cardápio</h2>
+            <p>Busque, filtre por categoria e explore nossas bebidas e lanches artesanais.</p>
+          </div>
+
+          <div class="menu-toolbar">
+            <input
+              type="text"
+              class="search-input"
+              ng-model="searchQuery"
+              ng-change="applyFilters()"
+              placeholder="Buscar bebidas e comidas...">
+            <dropdown
+              options="dropdownOptions"
+              on-select="filterMenu(option)"
+              placeholder="Filtrar por categoria"></dropdown>
+          </div>
+
+          <div class="menu-meta">
+            <span>
+              {{ filteredMenuItems.length }}
+              {{ filteredMenuItems.length === 1 ? 'item encontrado' : 'itens encontrados' }}
+            </span>
+            <span class="menu-meta-sep">/</span>
+            <span>Página {{ currentPage }} de {{ totalPages }}</span>
+          </div>
+
+          <div class="menu-list">
+            <article class="menu-item" ng-repeat="item in pagedMenuItems track by item.id">
+              <div class="menu-item-header">
+                <h3>{{ item.name }}</h3>
+                <!-- Filtro personalizado formatPrice -->
+                <span class="menu-price">{{ item.price | formatPrice }}</span>
+              </div>
+              <!-- Filtro capitalize + categoryPt em português -->
+              <span class="category-tag">{{ item.categoryPt }}</span>
+              <p class="menu-desc">{{ item.description }}</p>
+            </article>
+          </div>
+
+          <pagination
+            current-page="currentPage"
+            total-pages="totalPages"
+            on-change="goToPage(page)"></pagination>
+        </section>
+
+      </main>
+    </div><!-- /page-shell -->
+
+    <!-- ══ Rodapé empresarial ══════════════════════════════════════════════ -->
+    <footer class="site-footer">
+      <div class="footer-inner">
+
+        <div class="footer-top">
+
+          <!-- Coluna 1: Marca -->
+          <div class="footer-col footer-col-brand">
+            <div class="footer-logo">
+              <span class="footer-logo-name">Brew &amp; Co.</span>
+              <span class="footer-logo-sub">Coffee House</span>
+            </div>
+            <p class="footer-desc">
+              Uma cafeteria especial no coração da cidade, onde cada xícara conta
+              uma história. Grãos selecionados, baristas apaixonados e um ambiente
+              que convida você a ficar.
+            </p>
+            <div class="footer-certs">
+              <span class="footer-cert">Melhor Café 2024</span>
+              <span class="footer-cert">Comércio Justo</span>
+            </div>
+            <div class="footer-social">
+              <a href="#" class="footer-social-btn" aria-label="Instagram">IG</a>
+              <a href="#" class="footer-social-btn" aria-label="Facebook">FB</a>
+              <a href="#" class="footer-social-btn" aria-label="WhatsApp">WA</a>
+              <a href="#" class="footer-social-btn" aria-label="YouTube">YT</a>
+            </div>
+          </div>
+
+          <!-- Coluna 2: Horários -->
+          <div class="footer-col">
+            <h4 class="footer-col-title">Horários</h4>
+            <ul class="footer-hours">
+              <li><span>Seg &ndash; Sex</span><span>7h às 20h</span></li>
+              <li><span>Sábado</span><span>8h às 21h</span></li>
+              <li><span>Domingo</span><span>8h às 20h</span></li>
+              <li class="footer-hours-divider"></li>
+              <li><span>Feriados</span><span>9h às 18h</span></li>
+            </ul>
+            <p class="footer-open-now">Aberto agora</p>
+          </div>
+
+          <!-- Coluna 3: Contato -->
+          <div class="footer-col">
+            <h4 class="footer-col-title">Contato</h4>
+            <ul class="footer-contact">
+              <li>
+                <span class="footer-contact-label">Endereço</span>
+                <span>Rua das Flores, 42<br>Centro &mdash; São Paulo / SP</span>
+              </li>
+              <li>
+                <span class="footer-contact-label">Tel.</span>
+                <span>(11) 3456-7890</span>
+              </li>
+              <li>
+                <span class="footer-contact-label">E-mail</span>
+                <span>contato@brewco.com.br</span>
+              </li>
+              <li>
+                <span class="footer-contact-label">Site</span>
+                <span>www.brewco.com.br</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Coluna 4: Links -->
+          <div class="footer-col">
+            <h4 class="footer-col-title">Links Úteis</h4>
+            <ul class="footer-links">
+              <li><a href="#">Nosso Cardápio</a></li>
+              <li><a href="#">Programa de Fidelidade</a></li>
+              <li><a href="#">Reserve sua Mesa</a></li>
+              <li><a href="#">Franquias</a></li>
+              <li><a href="#">Trabalhe Conosco</a></li>
+              <li><a href="#">Política de Privacidade</a></li>
+            </ul>
+          </div>
+
+        </div><!-- /footer-top -->
+
+        <div class="footer-bottom">
+          <p>&copy; 2026 Brew &amp; Co. Coffee House. Todos os direitos reservados.</p>
+          <p class="footer-academic">
+            Atividade acadêmica &mdash; Tópicos Avançados em Desenvolvimento Web &mdash; 2026
+          </p>
+        </div>
+
+      </div><!-- /footer-inner -->
+    </footer>
+
+  </div><!-- /ng-controller -->
+
+  <toast></toast>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.3/angular.min.js"></script>
+  <script src="app/app.js"></script>
+  <script src="app/services/dataService.js"></script>
+  <script src="app/services/toastService.js"></script>
+  <script src="app/filters/formatFilter.js"></script>
+  <script src="app/components/accordion/accordionDirective.js"></script>
+  <script src="app/components/pagination/paginationDirective.js"></script>
+  <script src="app/components/progress-bar/progressBarDirective.js"></script>
+  <script src="app/components/tabs/tabsDirective.js"></script>
+  <script src="app/components/dropdown/dropdownDirective.js"></script>
+  <script src="app/components/toast/toastDirective.js"></script>
+  <script src="app/controllers/mainController.js"></script>
+</body>
+</html>

@@ -1,0 +1,18 @@
+<div class="toast-shell" ng-if="toast.isVisible" ng-class="'toast-' + toast.type">
+
+  <!-- Barra lateral colorida gerada por CSS via ng-class -->
+  <div class="toast-body">
+    <strong class="toast-title">
+      <span ng-if="toast.type === 'success'">Sucesso</span>
+      <span ng-if="toast.type === 'error'">Erro</span>
+      <span ng-if="toast.type === 'info'">Informação</span>
+    </strong>
+    <span class="toast-msg">{{ toast.message }}</span>
+  </div>
+
+  <!-- Fechar manualmente — ng-click -->
+  <button type="button" class="toast-close" ng-click="close()" aria-label="Fechar">
+    &times;
+  </button>
+
+</div>

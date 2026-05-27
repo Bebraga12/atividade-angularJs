@@ -1,0 +1,27 @@
+<div class="dropdown" ng-class="{ 'is-open': isOpen }">
+
+  <!-- Toggle button — ng-click opens/closes the list -->
+  <button type="button" class="dropdown-button" ng-click="toggleDropdown($event)">
+    <span>
+      {{ (selectedOption && selectedOption.label)
+          ? (selectedOption.label | capitalize)
+          : placeholder }}
+    </span>
+    <span class="dropdown-caret">▾</span>
+  </button>
+
+  <!-- Option list — ng-show + ng-repeat + capitalize filter -->
+  <div class="dropdown-menu" ng-show="isOpen">
+    <button
+      type="button"
+      class="dropdown-option"
+      ng-repeat="option in options track by option.value"
+      ng-class="{ 'is-selected': selectedOption && selectedOption.value === option.value }"
+      ng-click="selectOption(option)">
+      {{ option.label | capitalize }}
+      <span class="dropdown-check"
+        ng-if="selectedOption && selectedOption.value === option.value">&bull;</span>
+    </button>
+  </div>
+
+</div>
