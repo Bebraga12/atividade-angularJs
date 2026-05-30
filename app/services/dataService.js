@@ -1,29 +1,45 @@
+/**
+ * DATA SERVICE — AngularJS Factory
+ *
+ * Em AngularJS, um "service" é um singleton: o framework cria a instância uma vez
+ * e a reutiliza em todos os controllers/diretivas que o injetam.
+ *
+ * factory() recebe uma função construtora que retorna o objeto público do service.
+ * Aqui o padrão é: dados privados (var) + API pública (return {}).
+ *
+ * Responsabilidade: centralizar TODOS os dados estáticos da aplicação em um único lugar,
+ * facilitando a manutenção e evitando duplicação nos controllers.
+ */
 angular.module('atividadeApp').factory('dataService', function () {
-  // Dados centralizados da cafeteria utilizados em toda a aplicação.
 
+  // ── Cardápio ──────────────────────────────────────────────────────────────────
+  // Dados privados: nenhum código fora deste service acessa 'menuItems' diretamente.
+  // category (en) é usado internamente para filtrar; categoryPt (pt) é exibido na UI.
   var menuItems = [
-    { id: 1,  name: 'Espresso',              category: 'coffee',      categoryPt: 'Café',           price: 3.00, description: 'Dose encorpada com crema rica e sabor profundo de torra escura. A base de tudo que servimos.' },
-    { id: 2,  name: 'Cappuccino',            category: 'coffee',      categoryPt: 'Café',           price: 4.50, description: 'Blend perfeito de espresso, leite vaporizado e espuma aerada. Clássico e irresistível.' },
-    { id: 3,  name: 'Latte',                category: 'coffee',      categoryPt: 'Café',           price: 4.75, description: 'Espresso suave com leite aveludado vaporizado e um toque leve de espuma.' },
+    { id: 1,  name: 'Espresso',              category: 'coffee',      categoryPt: 'Café',            price: 3.00, description: 'Dose encorpada com crema rica e sabor profundo de torra escura. A base de tudo que servimos.' },
+    { id: 2,  name: 'Cappuccino',            category: 'coffee',      categoryPt: 'Café',            price: 4.50, description: 'Blend perfeito de espresso, leite vaporizado e espuma aerada. Clássico e irresistível.' },
+    { id: 3,  name: 'Latte',                category: 'coffee',      categoryPt: 'Café',            price: 4.75, description: 'Espresso suave com leite aveludado vaporizado e um toque leve de espuma.' },
     { id: 4,  name: 'Cold Brew',             category: 'cold drinks', categoryPt: 'Bebidas Geladas', price: 5.00, description: 'Café preparado a frio por 12 horas. Servido com gelo para um sabor incrivelmente suave.' },
-    { id: 5,  name: 'Matcha Latte',          category: 'tea',         categoryPt: 'Chá',            price: 5.50, description: 'Matcha em pó japonês batido com leite vaporizado. Cremoso e cheio de antioxidantes.' },
-    { id: 6,  name: 'Blueberry Muffin',      category: 'pastries',    categoryPt: 'Doces e Pães',   price: 3.50, description: 'Muffin fofo recheado de mirtilos suculentos e uma farofa crocante por cima.' },
-    { id: 7,  name: 'Avocado Toast',         category: 'food',        categoryPt: 'Comidas',        price: 7.00, description: 'Pão de fermentação natural com abacate fresco, ervas, flocos de pimenta e limão.' },
+    { id: 5,  name: 'Matcha Latte',          category: 'tea',         categoryPt: 'Chá',             price: 5.50, description: 'Matcha em pó japonês batido com leite vaporizado. Cremoso e cheio de antioxidantes.' },
+    { id: 6,  name: 'Blueberry Muffin',      category: 'pastries',    categoryPt: 'Doces e Pães',    price: 3.50, description: 'Muffin fofo recheado de mirtilos suculentos e uma farofa crocante por cima.' },
+    { id: 7,  name: 'Avocado Toast',         category: 'food',        categoryPt: 'Comidas',         price: 7.00, description: 'Pão de fermentação natural com abacate fresco, ervas, flocos de pimenta e limão.' },
     { id: 8,  name: 'Iced Americano',        category: 'cold drinks', categoryPt: 'Bebidas Geladas', price: 4.00, description: 'Espresso sobre água gelada e muito gelo. Refrescante e com o sabor puro do café.' },
-    { id: 9,  name: 'Chai Latte',            category: 'tea',         categoryPt: 'Chá',            price: 5.25, description: 'Especiarias de chá preto misturadas com leite quente e um toque de mel.' },
-    { id: 10, name: 'Cinnamon Roll',         category: 'pastries',    categoryPt: 'Doces e Pães',   price: 4.25, description: 'Pão enrolado com canela e cobertura de glacê de baunilha. Quentinho e perfumado.' },
-    { id: 11, name: 'Mocha',                category: 'coffee',      categoryPt: 'Café',           price: 5.25, description: 'Espresso com leite vaporizado e chocolate amargo intenso. Para quem ama os dois.' },
+    { id: 9,  name: 'Chai Latte',            category: 'tea',         categoryPt: 'Chá',             price: 5.25, description: 'Especiarias de chá preto misturadas com leite quente e um toque de mel.' },
+    { id: 10, name: 'Cinnamon Roll',         category: 'pastries',    categoryPt: 'Doces e Pães',    price: 4.25, description: 'Pão enrolado com canela e cobertura de glacê de baunilha. Quentinho e perfumado.' },
+    { id: 11, name: 'Mocha',                category: 'coffee',      categoryPt: 'Café',            price: 5.25, description: 'Espresso com leite vaporizado e chocolate amargo intenso. Para quem ama os dois.' },
     { id: 12, name: 'Vanilla Nitro',         category: 'cold drinks', categoryPt: 'Bebidas Geladas', price: 5.75, description: 'Cold brew com nitrogênio e aroma de baunilha. Textura aveludada e sabor único.' },
-    { id: 13, name: 'Croissant',             category: 'pastries',    categoryPt: 'Doces e Pães',   price: 3.25, description: 'Camadas amanteigadas de massa folhada, assadas frescas todas as manhãs.' },
-    { id: 14, name: 'Turkey Panini',         category: 'food',        categoryPt: 'Comidas',        price: 8.50, description: 'Sanduíche prensado com peru, queijo cheddar, tomate seco e maionese de ervas.' },
-    { id: 15, name: 'Herbal Tea',            category: 'tea',         categoryPt: 'Chá',            price: 3.75, description: 'Blend calmante sem cafeína servido quente com uma rodela de limão fresco.' },
-    { id: 16, name: 'Flat White',            category: 'coffee',      categoryPt: 'Café',           price: 4.80, description: 'Espresso concentrado com microespuma aveludada. Sensação suave e envolvente.' },
+    { id: 13, name: 'Croissant',             category: 'pastries',    categoryPt: 'Doces e Pães',    price: 3.25, description: 'Camadas amanteigadas de massa folhada, assadas frescas todas as manhãs.' },
+    { id: 14, name: 'Turkey Panini',         category: 'food',        categoryPt: 'Comidas',         price: 8.50, description: 'Sanduíche prensado com peru, queijo cheddar, tomate seco e maionese de ervas.' },
+    { id: 15, name: 'Herbal Tea',            category: 'tea',         categoryPt: 'Chá',             price: 3.75, description: 'Blend calmante sem cafeína servido quente com uma rodela de limão fresco.' },
+    { id: 16, name: 'Flat White',            category: 'coffee',      categoryPt: 'Café',            price: 4.80, description: 'Espresso concentrado com microespuma aveludada. Sensação suave e envolvente.' },
     { id: 17, name: 'Strawberry Iced Tea',   category: 'cold drinks', categoryPt: 'Bebidas Geladas', price: 4.95, description: 'Chá preto gelado infusionado com morango fresco. Perfeito para os dias quentes.' },
-    { id: 18, name: 'Chocolate Chip Cookie', category: 'pastries',    categoryPt: 'Doces e Pães',   price: 2.95, description: 'Cookie dourado carregado de gotas de chocolate derretido. Clássico e irresistível.' },
-    { id: 19, name: 'Breakfast Bowl',        category: 'food',        categoryPt: 'Comidas',        price: 8.95, description: 'Tigela nutritiva com aveia, frutas frescas, mix de castanhas e mel artesanal.' },
-    { id: 20, name: 'Hazelnut Macchiato',    category: 'coffee',      categoryPt: 'Café',           price: 5.45, description: 'Espresso em camadas com leite aveludado e dulçor de avelã. Sofisticado e delicioso.' }
+    { id: 18, name: 'Chocolate Chip Cookie', category: 'pastries',    categoryPt: 'Doces e Pães',    price: 2.95, description: 'Cookie dourado carregado de gotas de chocolate derretido. Clássico e irresistível.' },
+    { id: 19, name: 'Breakfast Bowl',        category: 'food',        categoryPt: 'Comidas',         price: 8.95, description: 'Tigela nutritiva com aveia, frutas frescas, mix de castanhas e mel artesanal.' },
+    { id: 20, name: 'Hazelnut Macchiato',    category: 'coffee',      categoryPt: 'Café',            price: 5.45, description: 'Espresso em camadas com leite aveludado e dulçor de avelã. Sofisticado e delicioso.' }
   ];
 
+  // ── FAQ — perguntas frequentes para o accordion ───────────────────────────────
+  // Cada objeto possui title (cabeçalho) e content (corpo do painel colapsável).
   var faqItems = [
     {
       title: 'Qual é o horário de funcionamento?',
@@ -47,6 +63,10 @@ angular.module('atividadeApp').factory('dataService', function () {
     }
   ];
 
+  // ── Abas do painel de perfil ──────────────────────────────────────────────────
+  // O conteúdo de cada aba é HTML puro montado como string.
+  // A diretiva de tabs usa $sce.trustAsHtml() para renderizá-lo com ng-bind-html,
+  // indicando explicitamente que o conteúdo é confiável (gerado internamente).
   var tabs = [
     {
       label: 'perfil',
@@ -97,7 +117,9 @@ angular.module('atividadeApp').factory('dataService', function () {
     }
   ];
 
-  // Opções do dropdown: label em PT, value em inglês (deve bater com item.category)
+  // ── Opções do dropdown de filtro ──────────────────────────────────────────────
+  // label: texto exibido na UI (português)
+  // value: deve bater EXATAMENTE com item.category (inglês) para o filtro funcionar
   var dropdownOptions = [
     { label: 'todos',           value: 'all'         },
     { label: 'café',            value: 'coffee'      },
@@ -107,6 +129,10 @@ angular.module('atividadeApp').factory('dataService', function () {
     { label: 'doces e pães',    value: 'pastries'    }
   ];
 
+  // ── API pública do service ────────────────────────────────────────────────────
+  // Cada getter retorna uma CÓPIA RASA (.slice()) da lista interna.
+  // Isso evita que um controller modifique acidentalmente o array original,
+  // protegendo a fonte de verdade e garantindo comportamento previsível.
   return {
     getMenuItems:       function () { return menuItems.slice();       },
     getFaqItems:        function () { return faqItems.slice();        },
