@@ -1,20 +1,7 @@
-/**
- * DATA SERVICE — AngularJS Factory
- *
- * Em AngularJS, um "service" é um singleton: o framework cria a instância uma vez
- * e a reutiliza em todos os controllers/diretivas que o injetam.
- *
- * factory() recebe uma função construtora que retorna o objeto público do service.
- * Aqui o padrão é: dados privados (var) + API pública (return {}).
- *
- * Responsabilidade: centralizar TODOS os dados estáticos da aplicação em um único lugar,
- * facilitando a manutenção e evitando duplicação nos controllers.
- */
+// Factory singleton que centraliza todos os dados estáticos da aplicação.
 angular.module('atividadeApp').factory('dataService', function () {
 
-  // ── Cardápio ──────────────────────────────────────────────────────────────────
-  // Dados privados: nenhum código fora deste service acessa 'menuItems' diretamente.
-  // category (en) é usado internamente para filtrar; categoryPt (pt) é exibido na UI.
+  // category (en) é usado no filtro; categoryPt (pt) é exibido na UI.
   var menuItems = [
     { id: 1,  name: 'Espresso',              category: 'coffee',      categoryPt: 'Café',            price: 3.00, description: 'Dose encorpada com crema rica e sabor profundo de torra escura. A base de tudo que servimos.' },
     { id: 2,  name: 'Cappuccino',            category: 'coffee',      categoryPt: 'Café',            price: 4.50, description: 'Blend perfeito de espresso, leite vaporizado e espuma aerada. Clássico e irresistível.' },
@@ -38,8 +25,7 @@ angular.module('atividadeApp').factory('dataService', function () {
     { id: 20, name: 'Hazelnut Macchiato',    category: 'coffee',      categoryPt: 'Café',            price: 5.45, description: 'Espresso em camadas com leite aveludado e dulçor de avelã. Sofisticado e delicioso.' }
   ];
 
-  // ── FAQ — perguntas frequentes para o accordion ───────────────────────────────
-  // Cada objeto possui title (cabeçalho) e content (corpo do painel colapsável).
+  // Perguntas e respostas para o componente accordion.
   var faqItems = [
     {
       title: 'Qual é o horário de funcionamento?',
@@ -63,10 +49,7 @@ angular.module('atividadeApp').factory('dataService', function () {
     }
   ];
 
-  // ── Abas do painel de perfil ──────────────────────────────────────────────────
-  // O conteúdo de cada aba é HTML puro montado como string.
-  // A diretiva de tabs usa $sce.trustAsHtml() para renderizá-lo com ng-bind-html,
-  // indicando explicitamente que o conteúdo é confiável (gerado internamente).
+  // Abas do painel de perfil — content é HTML puro sanitizado pela diretiva com $sce.trustAsHtml.
   var tabs = [
     {
       label: 'perfil',
@@ -117,9 +100,7 @@ angular.module('atividadeApp').factory('dataService', function () {
     }
   ];
 
-  // ── Opções do dropdown de filtro ──────────────────────────────────────────────
-  // label: texto exibido na UI (português)
-  // value: deve bater EXATAMENTE com item.category (inglês) para o filtro funcionar
+  // label: texto exibido na UI; value: deve bater com item.category para o filtro funcionar.
   var dropdownOptions = [
     { label: 'todos',           value: 'all'         },
     { label: 'café',            value: 'coffee'      },
@@ -129,10 +110,7 @@ angular.module('atividadeApp').factory('dataService', function () {
     { label: 'doces e pães',    value: 'pastries'    }
   ];
 
-  // ── API pública do service ────────────────────────────────────────────────────
-  // Cada getter retorna uma CÓPIA RASA (.slice()) da lista interna.
-  // Isso evita que um controller modifique acidentalmente o array original,
-  // protegendo a fonte de verdade e garantindo comportamento previsível.
+  // Cada getter retorna uma cópia rasa (.slice()) para proteger o array interno.
   return {
     getMenuItems:       function () { return menuItems.slice();       },
     getFaqItems:        function () { return faqItems.slice();        },
